@@ -3,11 +3,16 @@ import PropertySearchForm from "@/components/PropertySearchForm";
 import Link from "next/link";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 
+const apiDomain = process.env.API_DOMAIN || null;
 async function getSearchResults(searchParams) {
   try {
+    // Handle the case when the domain is not available yet
+    if (!apiDomain) {
+      return null;
+    }
     const queryString = new URLSearchParams(searchParams).toString();
     const response = await fetch(
-      `${process.env.API_DOMAIN}/api/properties/search?${queryString}`
+      `${apiDomain}/api/properties/search?${queryString}`
     );
     if (!response.ok) {
       throw new Error("Something Went Wrong");

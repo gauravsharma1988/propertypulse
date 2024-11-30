@@ -9,11 +9,14 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
+const apiDomain = process.env.API_DOMAIN || null;
 async function fetchProperty(id) {
   try {
-    const response = await fetch(
-      `${process.env.API_DOMAIN}/api/properties/${id}`
-    );
+    // Handle the case when the domain is not available yet
+    if (!apiDomain) {
+      return null;
+    }
+    const response = await fetch(`${apiDomain}/api/properties/${id}`);
     if (!response.ok) {
       // ifresponse is not 20..... series
       throw new Error("Something Went Wrong");

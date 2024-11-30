@@ -1,9 +1,15 @@
 import PropertyCard from "@/components/PropertyCard";
 
+const apiDomain = process.env.API_DOMAIN || null;
+
 // function:fetchProperties fetches properties using api
 async function fetchProperties() {
   try {
-    const response = await fetch(`${process.env.API_DOMAIN}/api/properties`, {
+    // Handle the case when the domain is not available yet
+    if (!apiDomain) {
+      return [];
+    }
+    const response = await fetch(`${apiDomain}/api/properties`, {
       cache: "no-store",
     });
 
@@ -16,6 +22,7 @@ async function fetchProperties() {
     return proprtiesData;
   } catch (error) {
     console.log(error);
+    return [];
   }
 }
 
